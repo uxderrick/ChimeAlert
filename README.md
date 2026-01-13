@@ -285,9 +285,9 @@ func setupSleepWakeNotifications() {
 
 ## Attribution
 
-**This library includes a non-removable "Powered by ChimeAlert" badge** in the bottom-right corner of all alerts. This is a requirement for using the open-source version.
+**This library includes a non-removable "Powered by Chime" badge** in the bottom-right corner of all alerts. This is a requirement for using the open-source version.
 
-The badge is subtle, non-intrusive, and respects the ADHD-friendly design philosophy of the library.
+The badge is subtle, non-intrusive, and respects the ADHD-friendly design philosophy of the library. When clicked, it opens [usechime.app](https://usechime.app) in the user's browser.
 
 ## Requirements
 
