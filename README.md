@@ -28,13 +28,13 @@ Add ChimeAlert to your `Package.swift` dependencies:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/ChimeAlert.git", from: "1.0.0")
+    .package(url: "https://github.com/uxderrick/ChimeAlert.git", from: "1.0.0")
 ]
 ```
 
 Or in Xcode:
 1. File → Add Package Dependencies
-2. Enter repository URL: `https://github.com/YOUR_USERNAME/ChimeAlert.git`
+2. Enter repository URL: `https://github.com/uxderrick/ChimeAlert.git`
 3. Select version and add to target
 
 ## Quick Start
@@ -325,10 +325,10 @@ ChimeAlert is released under the MIT License. See [LICENSE](LICENSE) for details
 
 ## Acknowledgments
 
-Extracted from [Chime](https://github.com/YOUR_USERNAME/chime) - an ADHD-friendly meeting reminder app for macOS.
+Extracted from [Chime](https://github.com/uxderrick/chime) - an ADHD-friendly meeting reminder app for macOS.
 
 Built with ❤️ for the ADHD community.
 
 ---
 
-**Have questions or feedback?** Open an issue on [GitHub](https://github.com/YOUR_USERNAME/ChimeAlert/issues).
+**Have questions or feedback?** Open an issue on [GitHub](https://github.com/uxderrick/ChimeAlert/issues).

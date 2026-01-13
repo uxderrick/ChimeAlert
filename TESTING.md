@@ -54,7 +54,7 @@ targets: [
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/ChimeAlert.git", from: "1.0.0")
+    .package(url: "https://github.com/uxderrick/ChimeAlert.git", from: "1.0.0")
 ],
 targets: [
     .target(
@@ -435,8 +435,8 @@ AlertManager.shared.configuration.soundVolume = 0.8
 ## Support
 
 For issues, questions, or feature requests:
-- GitHub Issues: https://github.com/YOUR_USERNAME/ChimeAlert/issues
-- Documentation: https://github.com/YOUR_USERNAME/ChimeAlert#readme
+- GitHub Issues: https://github.com/uxderrick/ChimeAlert/issues
+- Documentation: https://github.com/uxderrick/ChimeAlert#readme
 
 ## License
 
