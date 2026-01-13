@@ -307,7 +307,7 @@ ChimeAlert is released under the MIT License. See [LICENSE](LICENSE) for details
 
 ## Credits
 
-Extracted from [Chime](https://github.com/uxderrick/chime) - a meeting reminder app for macOS.
+Extracted from [Chime](https://usechime.app) - a meeting reminder app for macOS.
 
 ---
 
