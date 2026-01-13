@@ -1,8 +1,6 @@
 # ChimeAlert
 
-**An ADHD-friendly, impossible-to-miss full-screen alert system for macOS**
-
-ChimeAlert provides pulsating red-bordered alerts with multi-monitor support, sound rotation, and keyboard shortcuts - perfect for time-sensitive notifications, meetings, reminders, and tasks.
+A full-screen alert system for macOS with multi-monitor support, keyboard shortcuts, and extensive customization options.
 
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013+-blue.svg)](https://www.apple.com/macos)
@@ -10,15 +8,15 @@ ChimeAlert provides pulsating red-bordered alerts with multi-monitor support, so
 
 ## Features
 
-✅ **Full-screen alerts** with pulsating red border (prevents habituation)
-✅ **Multi-monitor support** (all, primary, external, or mouse location)
-✅ **Sleep/wake recovery** (prevents UI freezing after system sleep)
-✅ **Keyboard shortcuts** (⌘S snooze, ⌘↩ action, Esc dismiss)
-✅ **5 ADHD-friendly sounds** with automatic rotation
-✅ **Highly customizable** (colors, animations, timings, sounds)
-✅ **Snooze limits** (default 3x, configurable)
-✅ **Unified handling** for meetings, reminders, tasks
-✅ **Delegate pattern** for analytics and custom behavior
+- **Full-screen alerts** with animated pulsating border
+- **Multi-monitor support** (all monitors, primary only, external only, or mouse location)
+- **Sleep/wake recovery** handling to prevent UI freezing
+- **Keyboard shortcuts** (⌘S snooze, ⌘↩ action, Esc dismiss)
+- **Sound playback** with 5 bundled sounds and rotation support
+- **Highly customizable** (colors, animations, timings, sounds)
+- **Snooze management** with configurable limits
+- **Delegate pattern** for analytics and custom behavior
+- **Multiple alert types** (meetings, reminders, tasks, custom)
 
 ## Installation
 
@@ -51,7 +49,7 @@ struct MyMeeting: AlertItem {
     var startTime: Date
     var endTime: Date
     var notes: String?
-    var actionURL: URL?  // Zoom/Teams/Meet link
+    var actionURL: URL?  // Optional action URL (e.g., Zoom link)
     var actionButtonTitle: String? { actionURL != nil ? "Join" : nil }
     var attendees: [AlertAttendee]?
     var isRecurring: Bool
@@ -66,7 +64,7 @@ struct MyMeeting: AlertItem {
 ```swift
 import ChimeAlert
 
-// Set global configuration
+// Configure global settings
 AlertManager.shared.configuration.soundVolume = 0.9
 AlertManager.shared.configuration.maxSnoozeAttempts = 5
 AlertManager.shared.monitorPreference = .allMonitors
@@ -93,53 +91,53 @@ let meeting = MyMeeting(
 AlertManager.shared.showAlert(for: meeting)
 ```
 
-## Customization
+## Configuration
 
-### Colors & Animations
+### Visual Customization
 
 ```swift
-// Customize pulsating border
+// Pulsating border
 AlertManager.shared.configuration.borderColors = [.red, .orange]
 AlertManager.shared.configuration.pulseDuration = 1.5
 
-// Customize type-specific gradients
+// Type-specific gradients
 AlertManager.shared.configuration.meetingGradient = [
     Color(red: 0.2, green: 0.4, blue: 0.8),
     Color(red: 0.1, green: 0.2, blue: 0.6)
 ]
 
-// Adjust animation speeds
+// Animation speeds
 AlertManager.shared.configuration.glowDuration = 3.0
 AlertManager.shared.configuration.entranceAnimationDuration = 0.5
 ```
 
-### Sound Settings
+### Sound Configuration
 
 ```swift
-// Disable sound
+// Enable/disable sound
 AlertManager.shared.configuration.soundEnabled = false
 
-// Adjust volume (0.0 to 1.0)
+// Volume (0.0 to 1.0)
 AlertManager.shared.configuration.soundVolume = 0.5
 
-// Disable sound rotation (use first sound only)
+// Sound rotation
 AlertManager.shared.configuration.rotateSounds = false
 ```
 
 ### Snooze Behavior
 
 ```swift
-// Change default snooze duration (in seconds)
+// Default snooze duration (seconds)
 AlertManager.shared.configuration.defaultSnoozeInterval = 300 // 5 minutes
 
-// Customize available snooze options
-AlertManager.shared.configuration.snoozeOptions = [60, 300, 600, 1800] // 1min, 5min, 10min, 30min
+// Available snooze options
+AlertManager.shared.configuration.snoozeOptions = [60, 300, 600, 1800]
 
-// Adjust max snooze attempts
+// Maximum snooze attempts before disabling snooze button
 AlertManager.shared.configuration.maxSnoozeAttempts = 5
 ```
 
-### Multi-Monitor Display
+### Multi-Monitor Configuration
 
 ```swift
 // Show on all monitors
@@ -148,47 +146,49 @@ AlertManager.shared.monitorPreference = .allMonitors
 // Show on primary monitor only
 AlertManager.shared.monitorPreference = .primaryOnly
 
-// Show on external monitors only (useful for presentations)
+// Show on external monitors only
 AlertManager.shared.monitorPreference = .externalOnly
 
-// Show on whichever monitor has the mouse cursor
+// Show on monitor where mouse cursor is located
 AlertManager.shared.monitorPreference = .mouseLocation
 ```
 
 ## Delegate Integration
 
-Implement `AlertDelegate` to track analytics, handle actions, and customize behavior:
+Implement `AlertDelegate` to handle lifecycle events, track analytics, and customize behavior:
 
 ```swift
+@MainActor
 class MyAlertDelegate: AlertDelegate {
     func alertDidShow(_ item: AlertItem) {
-        print("Alert shown for: \(item.title)")
-        // Track to your analytics system
+        // Track alert display
+        Analytics.track("alert_shown", properties: ["title": item.title])
     }
 
     func alertDidTapAction(_ item: AlertItem) {
-        // Handle Join/Complete/Open action
+        // Handle action button tap (Join/Complete/Open)
         if let url = item.actionURL {
             NSWorkspace.shared.open(url)
         }
     }
 
     func alertDidSnooze(_ item: AlertItem, duration: TimeInterval) {
-        print("Alert snoozed for \(Int(duration / 60)) minutes")
+        // Track snooze action
+        Analytics.track("alert_snoozed", properties: ["duration": duration])
     }
 
     func alertShouldTrackStats() -> Bool {
-        return true // Enable stats tracking
+        return true // Enable internal stat tracking
     }
 
     func alertDidTrackStat(event: String, properties: [String: Any]) {
-        // Forward to your analytics system (PostHog, Mixpanel, etc.)
-        print("📊 Event: \(event), Properties: \(properties)")
+        // Forward to your analytics system
+        Analytics.track(event, properties: properties)
     }
 
     func alertShouldShow(_ item: AlertItem) async -> Bool {
-        // Optional: Validate alert should still be shown
-        // Useful for checking external state (e.g., task still pending in API)
+        // Optional: Validate if alert should still be shown
+        // Useful for checking external state (e.g., task deleted)
         return true
     }
 }
@@ -201,31 +201,31 @@ AlertManager.shared.delegate = MyAlertDelegate()
 
 ChimeAlert supports multiple alert types with different visual styling:
 
-### Meeting Alerts (Blue Gradient)
+### Meeting (Blue Gradient)
 ```swift
 struct Meeting: AlertItem {
     var type: AlertType { .meeting }
-    // Blue/green gradient, "Join" button, attendees list
+    // Blue/green gradient, "Join" button, shows attendees
 }
 ```
 
-### Reminder Alerts (Purple Gradient)
+### Reminder (Purple Gradient)
 ```swift
 struct Reminder: AlertItem {
     var type: AlertType { .reminder }
-    // Purple gradient, "Complete" button, no attendees
+    // Purple gradient, "Complete" button
 }
 ```
 
-### Task Alerts (Red Gradient)
+### Task (Red Gradient)
 ```swift
 struct Task: AlertItem {
     var type: AlertType { .task }
-    // Red gradient (Todoist-inspired), "Complete" button
+    // Red gradient, "Complete" button
 }
 ```
 
-### Custom Alerts
+### Custom
 ```swift
 struct CustomAlert: AlertItem {
     var type: AlertType {
@@ -240,9 +240,11 @@ struct CustomAlert: AlertItem {
 }
 ```
 
-## Trial Badge (Optional)
+## Advanced Features
 
-Display a trial countdown badge (e.g., "7d trial left"):
+### Trial Badge (Optional)
+
+Display a countdown badge for trial periods:
 
 ```swift
 AlertManager.shared.configuration.trialBadge = TrialBadgeInfo(
@@ -250,17 +252,15 @@ AlertManager.shared.configuration.trialBadge = TrialBadgeInfo(
     color: Color.orange
 )
 
-// Remove trial badge
+// Remove badge
 AlertManager.shared.configuration.trialBadge = nil
 ```
 
-## Advanced: Sleep/Wake Recovery
+### Sleep/Wake Recovery
 
 ChimeAlert automatically handles system sleep/wake transitions. To integrate with your app's sleep monitoring:
 
 ```swift
-import Foundation
-
 func setupSleepWakeNotifications() {
     NSWorkspace.shared.notificationCenter.addObserver(
         forName: NSWorkspace.willSleepNotification,
@@ -275,7 +275,6 @@ func setupSleepWakeNotifications() {
         object: nil,
         queue: .main
     ) { _ in
-        // Give system 5 seconds to recover
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             AlertManager.isSystemRecovering = false
         }
@@ -285,30 +284,13 @@ func setupSleepWakeNotifications() {
 
 ## Attribution
 
-**This library includes a non-removable "Powered by Chime" badge** in the bottom-right corner of all alerts. This is a requirement for using the open-source version.
-
-The badge is subtle, non-intrusive, and respects the ADHD-friendly design philosophy of the library. When clicked, it opens [usechime.app](https://usechime.app) in the user's browser.
+This library includes a non-removable "Powered by Chime" badge in the bottom-right corner of all alerts. The badge links to [usechime.app](https://usechime.app) when clicked. This is a requirement for using the open-source version.
 
 ## Requirements
 
 - macOS 13.0 (Ventura) or later
 - Swift 5.9 or later
 - Xcode 15.0 or later (for development)
-
-## Example Projects
-
-See the `Examples/` directory for sample implementations:
-- **BasicAlert** - Simple alert demonstration
-- **CustomStyling** - Advanced customization
-- **DelegateIntegration** - Analytics and action handling
-
-## Roadmap
-
-- [ ] Combined alerts for conflicting items (multiple meetings at same time)
-- [ ] More sound options
-- [ ] Accessibility improvements (VoiceOver, reduced motion)
-- [ ] Custom fonts support
-- [ ] Animation presets (subtle, standard, intense)
 
 ## Contributing
 
@@ -323,12 +305,10 @@ Contributions are welcome! Please:
 
 ChimeAlert is released under the MIT License. See [LICENSE](LICENSE) for details.
 
-## Acknowledgments
+## Credits
 
-Extracted from [Chime](https://github.com/uxderrick/chime) - an ADHD-friendly meeting reminder app for macOS.
-
-Built with ❤️ for the ADHD community.
+Extracted from [Chime](https://github.com/uxderrick/chime) - a meeting reminder app for macOS.
 
 ---
 
-**Have questions or feedback?** Open an issue on [GitHub](https://github.com/uxderrick/ChimeAlert/issues).
+**Questions or feedback?** Open an issue on [GitHub](https://github.com/uxderrick/ChimeAlert/issues).
