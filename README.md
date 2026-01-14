@@ -284,7 +284,9 @@ func setupSleepWakeNotifications() {
 
 ## Attribution
 
-This library includes a non-removable "Powered by Chime" badge in the bottom-right corner of all alerts. The badge links to [usechime.app](https://usechime.app) when clicked. This is a requirement for using the open-source version.
+This library displays a "Powered by Chime" badge in the bottom-right corner of all alerts. The badge links to [usechime.app](https://usechime.app) when clicked.
+
+**Badge removal is only available with a commercial license.** See [Commercial Licensing](#commercial-licensing) for details.
 
 ## Requirements
 
@@ -318,9 +320,9 @@ If you want to use ChimeAlert in a commercial product or remove the attribution 
 | **Indie** | $99 one-time | Solo developers, small businesses (<$100K revenue) |
 | **Enterprise** | $499 one-time | Larger companies, multiple apps |
 
-**Both tiers include:**
+**Both commercial tiers include:**
 - Use in unlimited commercial applications
-- Option to remove the "Powered by Chime" badge
+- **Only way to remove the "Powered by Chime" badge**
 - License is perpetual (one-time payment, use forever)
 
 **Contact:** [usechimeapp@gmail.com](mailto:usechimeapp@gmail.com)
