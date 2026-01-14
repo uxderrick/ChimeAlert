@@ -4,7 +4,7 @@ A full-screen alert system for macOS with multi-monitor support, keyboard shortc
 
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013+-blue.svg)](https://www.apple.com/macos)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-PolyForm%20Noncommercial-green.svg)](LICENSE)
 
 ## Features
 
@@ -303,7 +303,27 @@ Contributions are welcome! Please:
 
 ## License
 
-ChimeAlert is released under the MIT License. See [LICENSE](LICENSE) for details.
+ChimeAlert is released under the [PolyForm Noncommercial License 1.0.0](LICENSE).
+
+**This means:**
+- **Free** for personal use, hobby projects, education, research, and non-profit organizations
+- **Commercial use requires a paid license** (see below)
+
+## Commercial Licensing
+
+If you want to use ChimeAlert in a commercial product or remove the attribution badge, you'll need a commercial license.
+
+| Tier | Price | Best For |
+|------|-------|----------|
+| **Indie** | $99 one-time | Solo developers, small businesses (<$100K revenue) |
+| **Enterprise** | $499 one-time | Larger companies, multiple apps |
+
+**Both tiers include:**
+- Use in unlimited commercial applications
+- Option to remove the "Powered by Chime" badge
+- License is perpetual (one-time payment, use forever)
+
+**Contact:** [usechimeapp@gmail.com](mailto:usechimeapp@gmail.com)
 
 ## Credits
 
